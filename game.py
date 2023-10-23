@@ -18,7 +18,8 @@ def user_name(surf, text, x,y,size=size):
     text_ract = text_surface.get_rect()
     text_ract .midtop = (x,y)
     surf.blit(text_surface, text_ract)
-while 1:
+main_loop = True
+while main_loop:
     for i in pg.event.get():
         if i.type == pg.QUIT:
           exit()
@@ -26,10 +27,21 @@ while 1:
           if i.key == pg.K_BACKSPACE:
             name = name[: -1]
           elif i.key == pg.K_RETURN:
-            print(name)
+            main_loop = False
           else:
             name += i.unicode
     win.fill((0,0,0))
     draw_text(win, 'Введите имя:', W//2,H//2)
     draw_text(win,name, W//2,H//2 + 20)
+    pg.display.update()
+
+while True:
+    for i in pg.event.get():
+        if i.type == pg.QUIT:
+            exit()
+    win.fill((255, 255, 255))
+    for y in range(0,H,25):
+        for x in range(0,W,25):
+            pg.draw.line(win,(0,255,0), (0,y), (W, y))
+            pg.draw.line(win,(0,0,0), (x, 0), (x, H))
     pg.display.update()

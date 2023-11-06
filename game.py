@@ -1,3 +1,5 @@
+import random
+
 import pygame as pg
 
 pg.init()
@@ -17,6 +19,14 @@ class Player(pg.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.centerx = self.x
         self.rect.bottom = self.y
+
+class Apple(pg.sprite.Sprite):
+    def __init__(self):
+        pg.sprite.Sprite.__init__(self)
+        self.image = pg.image.Load('apple.png')
+        self.ract = self.image.get_ract()
+        self.ract.x = random.randrange(0,570)
+        self.ract.y = random.randrange(0, 570)
     def update(selfself):
         for i in range(4):
             win.blit(self.image,(self.rect.x-100*i,self.rect.y))
@@ -44,6 +54,24 @@ def user_name(surf, text, x,y,size=size):
     text_ract = text_surface.get_rect()
     text_ract .midtop = (x,y)
     surf.blit(text_surface, text_ract)
+class Tail(pg.sprite.Sprite):
+    def __init__(self):
+        super().__init__(*group)
+        self.speed_x = player.speed_x
+        self.speed_y = player.speed_y
+        self.image = pg.image.Load('zm.png')
+        self.rect.x = player.rect.x
+        self.rect.y = player.rect.y
+        
+all_sprites = pg.sprite.Group()
+player = Player(300,300)
+all_sprites.add(player)
+apple = Apple()
+apple_sprites = pg.sprite.Group()
+apple_sprites.add(apple)
+tail_sprites = pg.sprite.Group()
+name = ''
+start_game = True
 main_loop = True
 while main_loop:
     for i in pg.event.get():
@@ -73,3 +101,25 @@ while True:
             pg.draw.line(win,(0,255,0), (0,y), (W, y))
             pg.draw.line(win,(0,0,0), (x, 0), (x, H))
     pg.display.update()
+
+score = 0
+while 1:
+    for i in pg.event.get():
+        if i.type == pg.QUIT:
+            exit()
+
+    win.fill((255,255,255))
+    draw_text(win, name, 15 , 15, collor=(0,0,0))
+    draw_text(win, f'Score:{score}', WIDTH // 2 , 15,color=(0,0,0))
+    all_sprites.update()
+    all_sprites.draw(win)
+    apple_sprites.update()
+    apple_sprites.draw(win)
+    if Score != 0:
+    collision = pg.sprite.spritecollide(player,apple_sprites, False, pg.sprite.collide_mask)
+    if collision:
+        score += 1
+        Tail(tile_sprite)
+        apple.new_pos()
+    pg.display.update()
+    pg.time.Clock().tick(40)
